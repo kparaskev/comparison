@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="compare_record_form_view" model="ir.ui.view">
+		<field name="name">compare.record.form.view</field>
+		<field name="model">compare.record</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<label for="name" class="oe_edit_only"/>
+					<h1>
+						<field name="name"/>
+					</h1>
+					<group>
+						<group>
+							<field name="model"/>
+							<field name="ignored_fields"/>
+						</group>
+						<group>
+							<field name="record_id_one"/>
+							<field name="record_id_two"/>
+						</group>
+					</group>
+					<label for="compare_record_line_ids" class="oe_left"/>
+					<button name="compare_record" string="Compare Now" icon="fa-random" type="object" class="oe_right btn-primary"/>
+					<field name="compare_record_line_ids" readonly="1" class="mt8">
+						<tree decoration-success="is_both_value_same == True" decoration-danger="is_both_value_same == False" delete="0"  list_options='{"limit":1000}' default_order="is_both_value_same">
+							<field name="field_name"/>
+							<field name="record_one_value"/>
+							<field name="record_two_value"/>
+							<field name="is_both_value_same" invisible="1"/>
+						</tree>
+					</field>
+				</sheet>
+			</form>
+			</field>
+	</record>
+
+	<record id="compare_record_tree_view" model="ir.ui.view">
+		<field name="name">compare.record.tree.view</field>
+		<field name="model">compare.record</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name"/>
+				<field name="model"/>
+				<field name="ignored_fields"/>
+				<field name="record_id_one"/>
+				<field name="record_id_two"/>
+			</tree>
+		</field>
+	</record>
+
+	<!-- <record id="compare_record_line_tree_view" model="ir.ui.view">
+		<field name="name">compare.record.line.tree.view</field>
+		<field name="model">compare.record.line</field>
+		<field name="arch" type="xml">
+			<tree decoration-success="is_both_value_same == True" decoration-warning="is_both_value_same == False" readonly="1">
+				<field name="compare_record_id"/>
+				<field name="field_name"/>
+				<field name="record_one_value"/>
+				<field name="record_two_value"/>
+				<field name="is_both_value_same" invisible="1"/>
+			</tree>
+		</field> 
+	</record> -->
+
+	<record id="compare_record_action" model="ir.actions.act_window">
+		<field name="name">Record Comparison</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">compare.record</field>
+		<field name="view_mode">tree,form</field>
+		<field name="view_id" ref="compare_record_tree_view"/>
+	</record>
+
+	<menuitem id="compare_record_top_menu" name="Compare Records" web_icon="compare_record_values,static/description/icon.png"/>
+		<menuitem id="compare_record_menu" name="Compare Records" action="compare_record_action" parent="compare_record_top_menu"/>
+
+</odoo>
